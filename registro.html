@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Test Ride Farellones 01 — Registro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:ital,wght@0,300;0,400;0,700;0,900;1,700;1,900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0a2240;
+  --navy2:#0d2a4e;
+  --border:#2a2a2a;
+  --grey:#666;
+  --red:#e20613;
+  --red2:#ff1a26;
+  --green:#4CAF50;
+  --white:#F2EDE4;
+  --red:#e53935;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html,body{
+  height:100%;
+  background:var(--navy);
+  color:var(--white);
+  font-family:'Montserrat',sans-serif;
+  overflow:hidden;
+}
+
+/* ── CANVAS FONDO */
+#bg{
+  position:fixed;inset:0;
+  width:100%;height:100%;
+  z-index:0;
+}
+
+/* ── OVERLAY */
+.overlay{
+  position:fixed;inset:0;z-index:1;
+  background:rgba(6,22,40,.78);
+}
+
+/* ── PÁGINA */
+.page{
+  position:relative;z-index:2;
+  height:100%;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:28px 24px;
+  gap:0;
+}
+
+/* ── CABECERA */
+.kicker{
+  font-size:9px;letter-spacing:.45em;text-transform:uppercase;
+  color:var(--red);margin-bottom:10px;text-align:center;
+}
+.logo{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(44px,12vw,80px);
+  line-height:.85;color:var(--white);text-align:center;
+  margin-bottom:4px;
+}
+.logo span{color:var(--red);}
+.evento{
+  font-size:9px;letter-spacing:.4em;text-transform:uppercase;
+  color:rgba(242,237,228,.35);text-align:center;
+  margin-bottom:32px;
+}
+
+/* ── FORMULARIO */
+.form{
+  width:100%;max-width:360px;
+  display:flex;flex-direction:column;gap:10px;
+  margin-bottom:6px;
+}
+.field{display:flex;flex-direction:column;gap:4px;}
+.label{
+  font-size:9px;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--grey);padding-left:2px;
+}
+.input{
+  background:rgba(255,255,255,.05);
+  border:1px solid var(--border);
+  color:var(--white);
+  font-family:'Montserrat',sans-serif;
+  font-size:17px;letter-spacing:.03em;
+  padding:13px 14px;
+  outline:none;
+  transition:border-color .2s;
+  -webkit-appearance:none;
+  border-radius:0;
+  width:100%;
+}
+.input::placeholder{color:rgba(255,255,255,.18);}
+.input:focus{border-color:var(--red);}
+.input.error{
+  border-color:var(--red);
+  animation:shake .3s ease;
+}
+@keyframes shake{
+  0%,100%{transform:translateX(0);}
+  25%{transform:translateX(-6px);}
+  75%{transform:translateX(6px);}
+}
+.phone-row{display:flex;}
+.prefix{
+  background:rgba(255,255,255,.08);
+  border:1px solid var(--border);border-right:none;
+  color:var(--grey);
+  font-family:'Montserrat',sans-serif;
+  font-size:17px;padding:13px 12px;
+  white-space:nowrap;flex-shrink:0;
+  letter-spacing:.02em;
+}
+
+/* ── ERROR */
+.error-msg{
+  font-size:10px;letter-spacing:.15em;
+  color:var(--red);text-align:center;
+  min-height:16px;margin-bottom:4px;
+}
+
+/* ── CTA */
+.cta{
+  width:100%;max-width:360px;
+  background:var(--red);color:var(--black);
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(20px,5vw,26px);
+  letter-spacing:.06em;
+  padding:18px 24px;border:none;cursor:pointer;
+  clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  transition:background .2s;
+  animation:pulse 2.5s infinite;
+}
+.cta:hover{background:var(--red2);}
+.cta:active{background:var(--red2);transform:scale(.98);}
+@keyframes pulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(226,6,19,.4);}
+  50%{box-shadow:0 0 0 16px rgba(226,6,19,0);}
+}
+.cta-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:rgba(0,0,0,.5);flex-shrink:0;
+  animation:blink 1.2s infinite;
+}
+@keyframes blink{0%,100%{opacity:.4;}50%{opacity:1;}}
+
+/* ── NOTA GPS */
+.gps-note{
+  width:100%;max-width:360px;
+  display:flex;align-items:flex-start;gap:10px;
+  background:rgba(8,8,8,.5);
+  border:1px solid var(--border);border-top:none;
+  padding:10px 14px;
+}
+.gps-icon{font-size:14px;flex-shrink:0;margin-top:2px;opacity:.55;}
+.gps-text{
+  font-size:10px;letter-spacing:.1em;line-height:1.7;
+  color:rgba(242,237,228,.4);
+}
+.gps-text strong{
+  display:block;
+  color:rgba(242,237,228,.65);
+  letter-spacing:.2em;margin-bottom:1px;font-size:10px;
+}
+</style>
+<!-- PWA -->
+<link rel="manifest" href="/TEST-RIDE-FARELLONES-2/manifest.json">
+<meta name="theme-color" content="#e20613">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Test Ride">
+<link rel="apple-touch-icon" href="/TEST-RIDE-FARELLONES-2/icons/icon-192.png">
+</head>
+<body>
+
+<canvas id="bg"></canvas>
+<div class="overlay"></div>
+
+<div class="page">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+    <div style="width:24px;height:2px;background:#e20613;"></div>
+    <span style="font-size:9px;font-weight:700;letter-spacing:.45em;text-transform:uppercase;color:#e20613;">Cordillera de Los Andes · R.M.</span>
+  </div>
+  <div class="logo">TEST RIDE<br><span>PROMOBILITY</span></div>
+  <div class="evento">Registro de participante</div>
+
+  <div class="form">
+    <div class="field">
+      <label class="label">Nombre completo</label>
+      <input class="input" id="f-nombre" type="text"
+        placeholder="Tu nombre"
+        autocomplete="name" inputmode="text">
+    </div>
+    <div class="field">
+      <label class="label">Email</label>
+      <input class="input" id="f-email" type="email"
+        placeholder="tucorreo@email.com"
+        autocomplete="email" inputmode="email">
+    </div>
+    <div class="field">
+      <label class="label">Teléfono</label>
+      <div class="phone-row">
+        <span class="prefix">+56 9</span>
+        <input class="input" id="f-phone" type="tel"
+          placeholder="8 dígitos"
+          maxlength="8" inputmode="numeric">
+      </div>
+    </div>
+  </div>
+
+  <div class="error-msg" id="err"></div>
+
+  <button class="cta" id="cta-btn">
+    <div class="cta-dot"></div>
+    INICIAR RUTA CON GPS
+  </button>
+
+  <div class="gps-note">
+    <span class="gps-icon">📡</span>
+    <div class="gps-text">
+      <strong>Navegación satelital activada</strong>
+      Al registrarte el GPS se activa automáticamente. Conecta el audio del casco antes de partir. Camino Farellones, Cordillera de Los Andes.
+    </div>
+  </div>
+</div>
+
+<script src="assets/ruta.js"></script>
+<script>
+// ── CANVAS ANIMADO — ruta de fondo
+(function(){
+  const c = document.getElementById('bg');
+  function resize(){ c.width=window.innerWidth; c.height=window.innerHeight; }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const minLon=-70.502, maxLon=-70.245, minLat=-33.376, maxLat=-33.334;
+  const pad=0.10;
+  function tx(lon){ return pad*c.width  + (lon-minLon)/(maxLon-minLon)*c.width*(1-pad*2); }
+  function ty(lat){ return pad*c.height + (1-(lat-minLat)/(maxLat-minLat))*c.height*(1-pad*2); }
+
+  let prog=0;
+
+  function draw(){
+    const ctx=c.getContext('2d');
+    const W=c.width, H=c.height;
+    ctx.clearRect(0,0,W,H);
+
+    // Fondo topo
+    const bg=ctx.createLinearGradient(0,0,0,H);
+    bg.addColorStop(0,'#0d160d');
+    bg.addColorStop(.5,'#111a11');
+    bg.addColorStop(1,'#0a130a');
+    ctx.fillStyle=bg; ctx.fillRect(0,0,W,H);
+
+    // Curvas de nivel
+    for(let i=0;i<12;i++){
+      ctx.beginPath();
+      const y0=H*.05+i*H*.08, amp=6+i*2;
+      for(let x=0;x<=W;x+=4)
+        ctx.lineTo(x, y0+Math.sin(x/W*Math.PI*5+i*.9)*amp+Math.cos(x/W*Math.PI*8+i*1.3)*amp*.4);
+      ctx.strokeStyle=`rgba(10,60,120,${.07-i*.003})`;
+      ctx.lineWidth=1; ctx.stroke();
+    }
+
+    // Glow ruta
+    ctx.beginPath();
+    PM.ruta.forEach(([lon,lat],i)=>{
+      const x=tx(lon),y=ty(lat);
+      i?ctx.lineTo(x,y):ctx.moveTo(x,y);
+    });
+    ctx.strokeStyle='rgba(226,6,19,.18)';
+    ctx.lineWidth=20; ctx.lineJoin='round'; ctx.lineCap='round';
+    ctx.filter='blur(7px)'; ctx.stroke(); ctx.filter='none';
+
+    // Ruta
+    ctx.beginPath();
+    PM.ruta.forEach(([lon,lat],i)=>{
+      const x=tx(lon),y=ty(lat);
+      i?ctx.lineTo(x,y):ctx.moveTo(x,y);
+    });
+    ctx.strokeStyle='rgba(226,6,19,.7)';
+    ctx.lineWidth=2; ctx.stroke();
+
+    // WPs
+    PM.waypoints.forEach(wp=>{
+      const x=tx(wp.lon),y=ty(wp.lat);
+      ctx.beginPath(); ctx.arc(x,y,3,0,Math.PI*2);
+      ctx.fillStyle=wp.type==='summit'?'rgba(255,179,71,.7)':
+                    wp.type==='startend'?'rgba(76,175,80,.7)':'rgba(226,6,19,.5)';
+      ctx.fill();
+    });
+
+    // Punto animado
+    prog=(prog+.0025)%1;
+    const idx=Math.floor(prog*PM.ruta.length);
+    const [lon,lat]=PM.ruta[idx];
+    const px=tx(lon), py=ty(lat);
+    ctx.beginPath(); ctx.arc(px,py,9,0,Math.PI*2);
+    ctx.fillStyle='rgba(66,133,244,.12)'; ctx.fill();
+    ctx.beginPath(); ctx.arc(px,py,4,0,Math.PI*2);
+    ctx.fillStyle='#4285F4'; ctx.fill();
+    ctx.beginPath(); ctx.arc(px,py,4,0,Math.PI*2);
+    ctx.strokeStyle='rgba(255,255,255,.6)'; ctx.lineWidth=1.5; ctx.stroke();
+  }
+
+  draw();
+  setInterval(draw, 40);
+})();
+
+// ── REGISTRO
+function mark(id, ok){
+  document.getElementById(id).classList[ok?'remove':'add']('error');
+}
+
+function validate(){
+  const nombre = document.getElementById('f-nombre').value.trim();
+  const email  = document.getElementById('f-email').value.trim();
+  const phone  = document.getElementById('f-phone').value.trim();
+  const err    = document.getElementById('err');
+
+  if(!nombre){
+    err.textContent='Ingresa tu nombre completo';
+    mark('f-nombre',false); document.getElementById('f-nombre').focus(); return null;
+  }
+  mark('f-nombre',true);
+
+  if(!email || !email.includes('@') || !email.includes('.')){
+    err.textContent='Email inválido';
+    mark('f-email',false); document.getElementById('f-email').focus(); return null;
+  }
+  mark('f-email',true);
+
+  if(!phone || phone.length!==8 || isNaN(Number(phone))){
+    err.textContent='Teléfono: exactamente 8 dígitos';
+    mark('f-phone',false); document.getElementById('f-phone').focus(); return null;
+  }
+  mark('f-phone',true);
+
+  err.textContent='';
+  return { nombre, email, telefono:'+569'+phone, ts: new Date().toISOString() };
+}
+
+// Hook Google Sheets — reemplazar cuando esté listo
+function sendToSheet(data){
+  console.log('[Promobility] Participante:', data);
+  // TODO:
+  // fetch('URL_GOOGLE_APPS_SCRIPT', {
+  //   method:'POST', mode:'no-cors',
+  //   headers:{'Content-Type':'application/json'},
+  //   body: JSON.stringify(data)
+  // });
+}
+
+document.getElementById('cta-btn').addEventListener('click', function(){
+  const data = validate();
+  if(!data) return;
+
+  sendToSheet(data);
+
+  // Pasar datos a mapa.html via URL — funciona en todos los browsers
+  const p = new URLSearchParams({
+    nombre: data.nombre,
+    email:  data.email,
+    tel:    data.telefono,
+    t:      data.ts
+  });
+  window.location.href = 'mapa.html?' + p.toString();
+});
+
+// Enter avanza al siguiente campo o hace submit
+['f-nombre','f-email','f-phone'].forEach((id,i,arr)=>{
+  document.getElementById(id).addEventListener('keydown', e=>{
+    if(e.key==='Enter'){
+      e.preventDefault();
+      if(i < arr.length-1) document.getElementById(arr[i+1]).focus();
+      else document.getElementById('cta-btn').click();
+    }
+  });
+});
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/TEST-RIDE-FARELLONES-2/sw.js")
+      .then(r => console.log("[PWA] SW registrado:", r.scope))
+      .catch(e => console.log("[PWA] Error:", e));
+  });
+}
+</script>
+</body>
+</html>
