@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Test Ride Promobility — Camino Farellones. 44.3 km por la Cordillera de Los Andes, Región Metropolitana, Chile.">
+<title>Test Ride Promobility — Farellones 01</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,600;0,700;0,900;1,400;1,700;1,900&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#e20613;--navy2:#0d2a4e;--navy3:#061628;--red:#e20613;--red2:#ff1a26;--white:#ffffff;--grey:#8899aa;--border:rgba(255,255,255,.1);}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{background:var(--navy3);color:var(--white);font-family:'Montserrat',sans-serif;overflow-x:hidden;}
+::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-thumb{background:var(--red);}
+@keyframes up{from{opacity:0;transform:translateY(28px);}to{opacity:1;transform:translateY(0);}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(226,6,19,.4);}50%{box-shadow:0 0 0 16px rgba(226,6,19,0);}}
+#hero{position:relative;min-height:100svh;display:flex;flex-direction:column;overflow:hidden;background:var(--navy3);}
+#hero-canvas{position:absolute;inset:0;width:100%;height:100%;opacity:.35;z-index:0;}
+.hero-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(105deg,var(--navy3) 0%,rgba(10,34,64,.85) 45%,transparent 100%),linear-gradient(to top,var(--navy3) 0%,transparent 40%);}
+.hero-redline{position:absolute;top:0;left:0;width:4px;height:100%;background:var(--red);z-index:2;}
+.hero-body{position:relative;z-index:3;flex:1;display:flex;flex-direction:column;justify-content:center;padding:12vh 8vw 6vh;max-width:760px;}
+.hero-kicker{display:flex;align-items:center;gap:10px;margin-bottom:20px;opacity:0;animation:up .7s .2s forwards;}
+.kicker-line{width:32px;height:2px;background:var(--red);}
+.kicker-text{font-size:10px;font-weight:700;letter-spacing:.45em;text-transform:uppercase;color:var(--red);}
+.hero-logo{font-size:clamp(13px,2.2vw,18px);font-weight:900;font-style:italic;letter-spacing:.12em;text-transform:uppercase;color:var(--white);margin-bottom:6px;opacity:0;animation:up .7s .35s forwards;}
+.hero-logo span{color:var(--red);}
+.hero-title{font-size:clamp(38px,11vw,130px);font-weight:900;font-style:italic;line-height:.88;text-transform:uppercase;letter-spacing:-.02em;color:var(--white);margin-bottom:20px;opacity:0;animation:up .7s .5s forwards;}
+.hero-title .accent{color:var(--red);display:block;}
+.hero-desc{font-size:clamp(13px,1.5vw,16px);font-weight:300;line-height:1.75;color:rgba(255,255,255,.55);max-width:440px;margin-bottom:36px;opacity:0;animation:up .7s .65s forwards;}
+.hero-cta-group{display:flex;gap:12px;flex-wrap:wrap;align-items:center;opacity:0;animation:up .7s .8s forwards;}
+.cta-primary{background:var(--red);color:var(--white);font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;text-decoration:none;padding:16px 36px;border:none;cursor:pointer;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));transition:background .2s,transform .15s;animation:pulse 2.5s 1.5s infinite;display:inline-block;}
+.cta-primary:hover{background:var(--red2);transform:translateY(-2px);}
+.cta-secondary{font-size:11px;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.45);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.2);padding-bottom:2px;transition:color .2s,border-color .2s;}
+.cta-secondary:hover{color:var(--white);border-color:var(--white);}
+.hero-stats{position:relative;z-index:3;padding:0 8vw 6vh;display:flex;gap:0;flex-wrap:wrap;border-top:1px solid var(--border);padding-top:28px;opacity:0;animation:up .7s .95s forwards;}
+.stat{padding:0 32px 0 0;border-right:1px solid var(--border);margin-right:32px;display:flex;flex-direction:column;gap:4px;}
+.stat:last-child{border-right:none;}
+.stat-val{font-size:clamp(26px,5vw,40px);font-weight:900;font-style:italic;line-height:1;color:var(--white);}
+.stat-val em{font-size:.55em;font-style:normal;font-weight:400;color:var(--grey);}
+.stat-lbl{font-size:9px;font-weight:700;letter-spacing:.35em;text-transform:uppercase;color:var(--red);}
+#ruta{background:var(--navy);padding:80px 8vw;position:relative;overflow:hidden;}
+.section-tag{font-size:9px;font-weight:700;letter-spacing:.45em;text-transform:uppercase;color:var(--red);display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.section-tag::before{content:'';width:24px;height:2px;background:var(--red);}
+.section-title{font-size:clamp(32px,6vw,64px);font-weight:900;font-style:italic;text-transform:uppercase;line-height:.9;margin-bottom:48px;color:var(--white);}
+.wp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);}
+.wp-card{background:var(--navy2);padding:20px 18px;position:relative;overflow:hidden;transition:background .2s;cursor:default;}
+.wp-card:hover{background:rgba(226,6,19,.08);}
+.wp-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--red);transform:scaleX(0);transform-origin:left;transition:transform .3s;}
+.wp-card:hover::after{transform:scaleX(1);}
+.wp-num{font-size:52px;font-weight:900;font-style:italic;color:rgba(226,6,19,.1);position:absolute;top:8px;right:12px;line-height:1;pointer-events:none;}
+.wp-name{font-size:16px;font-weight:700;font-style:italic;text-transform:uppercase;color:var(--white);margin-bottom:2px;letter-spacing:.04em;}
+.wp-sub{font-size:9px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--red);margin-bottom:8px;}
+.wp-meta{font-size:11px;font-weight:300;color:rgba(255,255,255,.45);display:flex;gap:12px;}
+#experiencia{background:var(--navy3);padding:80px 8vw;}
+.exp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px;margin-top:48px;}
+.exp-card{background:var(--navy);border:1px solid var(--border);padding:28px 24px;position:relative;}
+.exp-icon{width:36px;height:36px;background:rgba(226,6,19,.12);border:1px solid rgba(226,6,19,.25);display:flex;align-items:center;justify-content:center;margin-bottom:16px;}
+.exp-icon svg{width:18px;height:18px;fill:var(--red);}
+.exp-card-title{font-size:14px;font-weight:700;font-style:italic;text-transform:uppercase;letter-spacing:.08em;color:var(--white);margin-bottom:8px;}
+.exp-card-desc{font-size:12px;font-weight:300;line-height:1.7;color:rgba(255,255,255,.5);}
+#cta-final{background:var(--red);padding:80px 8vw;display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;overflow:hidden;}
+#cta-final::before{content:'FARELLONES';position:absolute;font-size:18vw;font-weight:900;font-style:italic;color:rgba(0,0,0,.08);white-space:nowrap;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;letter-spacing:-.02em;}
+.cta-final-tag{font-size:9px;font-weight:700;letter-spacing:.45em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:16px;}
+.cta-final-title{font-size:clamp(36px,8vw,80px);font-weight:900;font-style:italic;text-transform:uppercase;line-height:.9;color:var(--white);margin-bottom:12px;}
+.cta-final-sub{font-size:13px;font-weight:300;color:rgba(255,255,255,.7);margin-bottom:40px;max-width:460px;line-height:1.7;}
+.cta-final-btn{background:var(--white);color:var(--red);font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;text-decoration:none;padding:18px 48px;border:none;cursor:pointer;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));transition:transform .15s,box-shadow .2s;display:inline-block;}
+.cta-final-btn:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.25);}
+footer{background:var(--navy3);border-top:1px solid var(--border);padding:24px 8vw;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+.footer-logo{font-size:11px;font-weight:900;font-style:italic;letter-spacing:.15em;text-transform:uppercase;color:var(--white);}
+.footer-logo span{color:var(--red);}
+.footer-legal{font-size:10px;font-weight:300;color:rgba(255,255,255,.25);letter-spacing:.08em;}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+#videos{background:var(--navy3);padding:80px 8vw;}
+.video-placeholder{width:100%;aspect-ratio:16/9;border:1px dashed rgba(226,6,19,.3);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:rgba(226,6,19,.03);}
+.vp-icon{font-size:48px;opacity:.2;}
+.vp-text{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.2);}
+@media(max-width:600px){.hero-body{padding:10vh 6vw 4vh;}.hero-stats{padding:20px 6vw 5vh;}.stat{padding:0 20px 0 0;margin-right:20px;}#ruta,#experiencia,#cta-final{padding:60px 6vw;}footer{padding:20px 6vw;}}
+</style>
+<!-- PWA -->
+<link rel="manifest" href="/TEST-RIDE-FARELLONES-2/manifest.json">
+<meta name="theme-color" content="#e20613">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Test Ride">
+<link rel="apple-touch-icon" href="/TEST-RIDE-FARELLONES-2/icons/icon-192.png">
+</head>
+<body>
+
+<section id="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-overlay"></div>
+  <div class="hero-redline"></div>
+  <div class="hero-body">
+    <div class="hero-kicker"><div class="kicker-line"></div><span class="kicker-text">Cordillera de Los Andes · Región Metropolitana · Chile</span></div>
+    <div class="hero-logo">PROMOBILITY <span>BIKES</span></div>
+    <h1 class="hero-title">TEST<br>RIDE<br><span class="accent">FARELLONES</span></h1>
+    <p class="hero-desc">Una experiencia de ruta inmersiva por la Cordillera de Los Andes. Desde la Shell de Las Condes hasta la base de Valle Nevado. GPS en vivo, audio en casco y una zona deportiva a 2.300 metros sobre el nivel del mar.</p>
+    <div class="hero-cta-group">
+      <a href="registro.html" class="cta-primary">▶ UNIRME AL RIDE</a>
+      <a href="#ruta" class="cta-secondary">VER LA RUTA</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-val">44.3<em> km</em></div><div class="stat-lbl">Distancia</div></div>
+    <div class="stat"><div class="stat-val">2.997<em> m</em></div><div class="stat-lbl">Altitud máx.</div></div>
+    <div class="stat"><div class="stat-val">6</div><div class="stat-lbl">Checkpoints</div></div>
+    <div class="stat"><div class="stat-val">60–75<em> min</em></div><div class="stat-lbl">Objetivo</div></div>
+  </div>
+</section>
+
+<section id="ruta">
+  <div class="section-tag reveal">La Ruta</div>
+  <h2 class="section-title reveal">6 PUNTOS<br>DE RUTA</h2>
+  <div class="wp-grid" id="wp-grid"></div>
+</section>
+
+<section id="videos">
+  <div class="section-tag reveal">En terreno</div>
+  <h2 class="section-title reveal">LA RUTA<br>EN ACCIÓN</h2>
+  <div style="display:flex;justify-content:center;" class="reveal">
+    <div style="width:min(340px,85vw);aspect-ratio:9/16;border:1px solid var(--border);overflow:hidden;position:relative;">
+      <iframe
+        src="https://drive.google.com/file/d/1cawnIfn6DusqM14mYl_v3SzB18aayoKG/preview"
+        style="width:100%;height:100%;border:none;display:block;"
+        allow="autoplay" allowfullscreen>
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<section id="experiencia">
+  <div class="section-tag reveal">La Experiencia</div>
+  <h2 class="section-title reveal">TECNOLOGÍA<br>EN TERRENO</h2>
+  <div class="exp-grid">
+    <div class="exp-card reveal"><div class="exp-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div><div class="exp-card-title">GPS en vivo</div><div class="exp-card-desc">Tu posición en tiempo real sobre el Camino Farellones. Mapa offline. La cordillera siempre en pantalla.</div></div>
+    <div class="exp-card reveal"><div class="exp-icon"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></div><div class="exp-card-title">Audio en casco</div><div class="exp-card-desc">Alertas de voz antes de cada desvío y checkpoint. Manos en el manubrio mientras los Andes hablan.</div></div>
+    <div class="exp-card reveal"><div class="exp-icon"><svg viewBox="0 0 24 24"><path d="M15 1H9v2h6V1zm-4 13h2V8h-2v6zm8.03-6.61l1.42-1.42c-.43-.51-.9-.99-1.41-1.41l-1.42 1.42C16.07 4.74 14.12 4 12 4c-4.97 0-9 4.03-9 9s4.02 9 9 9 9-4.03 9-9c0-2.12-.74-4.07-1.97-5.61zM12 20c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg></div><div class="exp-card-title">Cronómetro de pace</div><div class="exp-card-desc">Objetivo 60–75 minutos. 44.3 km de ascenso puro hacia los 3.000 metros. Cada segundo cuenta en la cordillera.</div></div>
+    <div class="exp-card reveal"><div class="exp-icon"><svg viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg></div><div class="exp-card-title">Zona Deportiva</div><div class="exp-card-desc">Tramo exclusivo a 2.300 m snm para probar la moto al límite. Ida y vuelta libre con vista panorámica a los Andes.</div></div>
+  </div>
+</section>
+
+<section id="cta-final">
+  <div class="cta-final-tag">¿Estás listo?</div>
+  <h2 class="cta-final-title">ÚNETE<br>AL RIDE</h2>
+  <p class="cta-final-sub">Regístrate, activa el GPS y parte desde la Shell de Las Condes. La Cordillera de Los Andes te espera. 44.3 km que no olvidarás.</p>
+  <a href="registro.html" class="cta-final-btn">▶ REGISTRARME AHORA</a>
+</section>
+
+<footer>
+  <div class="footer-logo">PROMOBILITY <span>BIKES</span></div>
+  <div class="footer-legal">© 2026 Promobility® · Región Metropolitana · Chile · Todos los derechos reservados.</div>
+</footer>
+
+<script src="assets/ruta.js"></script>
+<script>
+(function(){
+  const c=document.getElementById('hero-canvas');
+  function resize(){c.width=window.innerWidth;c.height=window.innerHeight;}
+  resize(); window.addEventListener('resize',resize);
+  const minLon=-70.502,maxLon=-70.245,minLat=-33.376,maxLat=-33.334,pad=0.08;
+  function tx(lon){return pad*c.width+(lon-minLon)/(maxLon-minLon)*c.width*(1-pad*2);}
+  function ty(lat){return pad*c.height+(1-(lat-minLat)/(maxLat-minLat))*c.height*(1-pad*2);}
+  let prog=0;
+  function draw(){
+    const ctx=c.getContext('2d'),W=c.width,H=c.height;
+    ctx.clearRect(0,0,W,H);ctx.fillStyle='#061628';ctx.fillRect(0,0,W,H);
+    for(let i=0;i<14;i++){ctx.beginPath();const y0=H*.05+i*H*.072,amp=7+i*2.2;for(let x=0;x<=W;x+=4)ctx.lineTo(x,y0+Math.sin(x/W*Math.PI*4.5+i*.8)*amp+Math.cos(x/W*Math.PI*7+i*1.2)*amp*.4);ctx.strokeStyle=`rgba(10,60,120,${.07-i*.003})`;ctx.lineWidth=1;ctx.stroke();}
+    ctx.beginPath();PM.ruta.forEach(([lon,lat],i)=>{const x=tx(lon),y=ty(lat);i?ctx.lineTo(x,y):ctx.moveTo(x,y);});ctx.strokeStyle='rgba(226,6,19,.22)';ctx.lineWidth=22;ctx.lineJoin='round';ctx.lineCap='round';ctx.filter='blur(8px)';ctx.stroke();ctx.filter='none';
+    ctx.beginPath();PM.ruta.forEach(([lon,lat],i)=>{const x=tx(lon),y=ty(lat);i?ctx.lineTo(x,y):ctx.moveTo(x,y);});ctx.strokeStyle='rgba(226,6,19,.65)';ctx.lineWidth=2.2;ctx.stroke();
+    PM.waypoints.forEach(wp=>{const x=tx(wp.lon),y=ty(wp.lat);ctx.beginPath();ctx.arc(x,y,3,0,Math.PI*2);ctx.fillStyle=wp.type==='summit'?'rgba(255,255,255,.6)':wp.type==='startend'?'rgba(226,6,19,.9)':'rgba(226,6,19,.55)';ctx.fill();});
+    prog=(prog+.002)%1;const idx=Math.floor(prog*PM.ruta.length);const[lon,lat]=PM.ruta[idx];const px=tx(lon),py=ty(lat);ctx.beginPath();ctx.arc(px,py,8,0,Math.PI*2);ctx.fillStyle='rgba(226,6,19,.15)';ctx.fill();ctx.beginPath();ctx.arc(px,py,3.5,0,Math.PI*2);ctx.fillStyle='#e20613';ctx.fill();
+  }
+  draw();setInterval(draw,40);
+})();
+(function(){
+  const grid=document.getElementById('wp-grid');if(!grid)return;
+  PM.waypoints.forEach(wp=>{const card=document.createElement('div');card.className='wp-card';card.innerHTML=`<div class="wp-num">${String(wp.id).padStart(2,'0')}</div><div class="wp-name">${wp.name}</div><div class="wp-sub">${wp.sub}</div><div class="wp-meta"><span>⬢ ${wp.ele}m</span><span>· ${wp.km} km</span></div>`;grid.appendChild(card);});
+})();
+(function(){
+  const els=document.querySelectorAll('.reveal');
+  const obs=new IntersectionObserver(entries=>{entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*80);obs.unobserve(e.target);}});},{threshold:.15});
+  els.forEach(el=>obs.observe(el));
+})();
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/TEST-RIDE-FARELLONES-2/sw.js")
+      .then(r => console.log("[PWA] SW registrado:", r.scope))
+      .catch(e => console.log("[PWA] Error:", e));
+  });
+}
+</script>
+</body>
+</html>
